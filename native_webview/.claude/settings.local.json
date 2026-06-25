@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(emulator -list-avds)",
+      "Bash(adb emu *)"
+    ]
+  }
+}

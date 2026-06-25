@@ -1,0 +1,7 @@
+No — recalibration just reruns a tiny JS loop (for i in 0..4: probe 8ms) inside the already-running WebView page. It's a setInterval that fires every 30 seconds within the JS that's already executing.
+
+Nothing restarts. The app, the WebView, hls.js playback — all continue uninterrupted. It's equivalent to the phone doing a quick calculation in the background every 30 seconds, taking ~40ms total (5 probes × 8ms).
+
+Want me to add it?
+
+
