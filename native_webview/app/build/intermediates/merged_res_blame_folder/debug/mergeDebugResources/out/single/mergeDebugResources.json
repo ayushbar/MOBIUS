@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-debug-50:/mipmap-mdpi_ic_launcher.xml.flat",
+        "source": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-main-52:/mipmap-mdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-debug-50:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-main-52:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-debug-50:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-main-52:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-debug-50:/xml_network_security_config.xml.flat",
+        "source": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-main-52:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "com.jlr.streamdemo.app-debug-50:/layout_native_player_view.xml.flat",
+        "source": "com.jlr.streamdemo.app-main-52:/layout/native_player_view.xml"
+    },
+    {
+        "merged": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-debug-50:/drawable_ic_launcher.xml.flat",
+        "source": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-main-52:/drawable/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-debug-50:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.streamdemo.app-main-52:/mipmap-anydpi-v26/ic_launcher.xml"
+    }
+]

@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.adaptive.app-debug-49:/layout_player_view.xml.flat",
+        "source": "/Users/ayushbaranwal/.gradle/daemon/8.9/com.jlr.adaptive.app-main-51:/layout/player_view.xml"
+    },
+    {
+        "merged": "com.jlr.adaptive.app-debug-49:/layout_player_view.xml.flat",
+        "source": "com.jlr.adaptive.app-main-51:/layout/player_view.xml"
+    }
+]

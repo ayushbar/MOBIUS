@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JLR ECU Controller</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:monospace; }
+  body { background:#0d0d1a; color:#eee; height:100vh;
+         display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px; }
+
+  h1  { color:#e8b84b; font-size:1.4em; letter-spacing:2px; }
+  h2  { color:#888; font-size:.8em; font-weight:normal; margin-top:4px; }
+
+  #card {
+    background:#12121f; border:1px solid #2a2a3e; border-radius:12px;
+    padding:40px 48px; display:flex; flex-direction:column; align-items:center; gap:24px;
+    width:520px;
+  }
+
+  #value {
+    font-size:5em; font-weight:bold; line-height:1;
+    transition:color .3s;
+  }
+
+  #label { font-size:.85em; color:#888; letter-spacing:1px; }
+
+  input[type=range] {
+    -webkit-appearance:none; width:100%; height:14px;
+    border-radius:7px; outline:none; cursor:pointer;
+    transition:background .3s;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance:none; width:28px; height:28px;
+    border-radius:50%; background:#e8b84b; cursor:pointer;
+    box-shadow:0 0 8px rgba(232,184,75,.5);
+  }
+
+  #bar-wrap { width:100%; position:relative; }
+  #thresholds { display:flex; justify-content:space-between;
+                font-size:.7em; color:#555; margin-top:6px; }
+
+  .markers { position:absolute; top:0; left:0; width:100%; height:14px; pointer-events:none; }
+  .marker { position:absolute; top:0; height:14px; width:2px; border-radius:1px; }
+
+  #state-chip {
+    padding:8px 24px; border-radius:20px; font-size:.9em; font-weight:bold;
+    letter-spacing:1px; transition:all .3s;
+  }
+
+  #instructions {
+    font-size:.72em; color:#555; line-height:1.8; text-align:center;
+    border-top:1px solid #1a1a2e; padding-top:16px; width:100%;
+  }
+  #instructions code { color:#e8b84b; }
+
+  #presets { display:flex; gap:10px; }
+  .preset {
+    background:#1a1a2e; border:1px solid #2a2a3e; color:#aaa;
+    padding:6px 14px; border-radius:6px; cursor:pointer;
+    font-family:monospace; font-size:.8em; transition:all .15s;
+  }
+  .preset:hover { border-color:#e8b84b; color:#e8b84b; }
+</style>
+</head>
+<body>
+
+<div>
+  <h1>JLR ECU CONTROLLER</h1>
+  <h2 style="text-align:center">Adaptive Middleware — Simulated ECU CPU Load</h2>
+</div>
+
+<div id="card">
+  <div id="value">20%</div>
+  <div id="label">ECU CPU LOAD</div>
+
+  <div id="bar-wrap">
+    <div class="markers" id="markers"></div>
+    <input type="range" id="slider" min="0" max="100" value="20" step="1">
+    <div id="thresholds">
+      <span>0%</span>
+      <span id="low-label">Low: 35%</span>
+      <span id="high-label">High: 70%</span>
+      <span>100%</span>
+    </div>
+  </div>
+
+  <div id="presets">
+    <button class="preset" onclick="set(10)">Idle (10%)</button>
+    <button class="preset" onclick="set(50)">Normal (50%)</button>
+    <button class="preset" onclick="set(80)">Overload (80%)</button>
+    <button class="preset" onclick="set(95)">Critical (95%)</button>
+  </div>
+
+  <div id="state-chip">NORMAL</div>
+
+  <div id="instructions">
+    Android app: tap <code>⚡ Remote ECU</code> and enter this PC's IP.<br>
+    The slider controls the ECU CPU load reported to the middleware.
+  </div>
+</div>
+
+<script>
+const LOW  = 35;
+const HIGH = 70;
+
+const slider   = document.getElementById('slider');
+const valueEl  = document.getElementById('value');
+const chipEl   = document.getElementById('state-chip');
+const markersEl = document.getElementById('markers');
+
+// Draw threshold markers
+function drawMarkers() {
+  markersEl.innerHTML = '';
+  [[LOW,'#2ecc71'],[HIGH,'#e74c3c']].forEach(([pct,color]) => {
+    const m = document.createElement('div');
+    m.className = 'marker';
+    m.style.left = pct + '%';
+    m.style.background = color;
+    markersEl.appendChild(m);
+  });
+}
+drawMarkers();
+
+function color(v) {
+  return v >= HIGH ? '#e74c3c' : v >= LOW ? '#f39c12' : '#2ecc71';
+}
+
+function stateLabel(v) {
+  return v >= HIGH ? 'OVERTHROTTLED' : v <= LOW ? 'RECOVERING' : 'NORMAL';
+}
+
+function update(v) {
+  const c = color(v);
+  valueEl.textContent = v + '%';
+  valueEl.style.color = c;
+  slider.style.background = `linear-gradient(to right, ${c} 0%, ${c} ${v}%, #1a1a2e ${v}%, #1a1a2e 100%)`;
+  chipEl.textContent = stateLabel(v);
+  chipEl.style.background = c + '22';
+  chipEl.style.color = c;
+  chipEl.style.border = '1px solid ' + c;
+  // POST to server
+  fetch('/cpu', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({value: v})
+  }).catch(() => {});
+}
+
+function set(v) {
+  slider.value = v;
+  update(v);
+}
+
+slider.addEventListener('input', () => update(parseInt(slider.value)));
+
+// Init
+update(20);
+</script>
+</body>
+</html>
